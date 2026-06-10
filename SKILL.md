@@ -79,6 +79,7 @@ Load `references/commands.md` for full `--help` output of every subcommand.
 | | `block update` | Update block |
 | | `block delete` | Delete block |
 | | `block move` | Move block |
+| | `block stat` | Get block content statistics |
 | | `block dom` | Get block DOM |
 | | `block kramdown` | Get block kramdown |
 | | `block breadcrumb` | Get block breadcrumb |
@@ -95,6 +96,9 @@ Load `references/commands.md` for full `--help` output of every subcommand.
 | **Import** | `import md --file <path> --notebook <id>` | Import Markdown |
 | | `import sy` | Import `.sy.zip` |
 | | `import data` | Import data backup |
+| **Daily Note** | `dailynote create --notebook <id>` | Create today's daily note |
+| | `dailynote append --notebook <id> [--data <md>|--file <path>]` | Append block to today's daily note |
+| | `dailynote prepend --notebook <id> [--data <md>|--file <path>]` | Prepend block to today's daily note |
 | **Asset** | `asset unused` | List unused assets |
 | | `asset clean` | Clean unused assets |
 | | `asset upload` | Upload files to assets |
@@ -164,6 +168,8 @@ siyuan sql "SELECT type, COUNT(*) as cnt FROM blocks GROUP BY type" -w /path -f 
 siyuan search "keyword" -w /path -f json
 # Flags: -m (method), -t (type filter), -n (notebook filter), -o (order), -p (page), -s (page-size)
 ```
+
+**Note:** `-m 4` (fuzzy/vector search) requires an embedding model to be configured and embeddings to be generated first. If fuzzy search returns no results or an error, remind the user to configure the embedding model in SiYuan settings and run embedding.
 
 ### Export a Document
 

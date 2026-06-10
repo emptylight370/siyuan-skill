@@ -1,6 +1,6 @@
 # SiYuan CLI — Full Command Reference
 
-Auto-generated from `siyuan --help` output (v3.6.5).
+Auto-generated from `siyuan --help` output (v3.7.0-dev11).
 
 ---
 
@@ -84,6 +84,7 @@ siyuan block [command] -w <path>
 | `insert` | `--id <id>` | Insert block |
 | `append` | `--id <id>` | Append block |
 | `prepend` | `--id <id>` | Prepend block |
+| `stat` | | Get block content statistics |
 | `update` | `--id <id>` | Update block |
 | `delete` | `--id <id>` | Delete block |
 | `move` | `--id <id>` | Move block |
@@ -121,7 +122,7 @@ siyuan search <query> [flags] -w <path>
 ### Flags
 | Flag | Description |
 |------|-------------|
-| `-m, --method <int>` | 0=keyword 1=query-syntax 2=sql 3=regex |
+| `-m, --method <int>` | 0=keyword 1=query-syntax 2=sql 3=regex 4=fuzzy |
 | `-t, --type <stringArray>` | Block type filter (repeatable) |
 | `--subtype <stringArray>` | Block subtype filter (repeatable) |
 | `-n, --notebook <stringArray>` | Notebook ID filter (repeatable) |
@@ -130,6 +131,8 @@ siyuan search <query> [flags] -w <path>
 | `-p, --page <int>` | Page number (default: 1) |
 | `-s, --page-size <int>` | Results per page (default: 32) |
 | `-g, --group-by <int>` | 0=none 1=document |
+
+> **Note:** `-m 4` (fuzzy/vector search) requires an embedding model to be configured in SiYuan settings and embeddings to be generated before use. If results are empty or an error occurs, prompt the user to configure the embedding model first.
 
 ### Block Types for `-t`
 `document heading paragraph list listItem codeBlock mathBlock table blockquote superBlock htmlBlock embedBlock databaseBlock audioBlock videoBlock iframeBlock widgetBlock callout`
@@ -326,6 +329,21 @@ siyuan database [command] -w <path>
 
 ---
 
+## dailynote — Daily Note Operations
+
+```
+siyuan dailynote [command] -w <path>
+```
+
+### Subcommands
+| Command | Flags | Description |
+|---------|-------|-------------|
+| `create --notebook <id>` | | Create today's daily note |
+| `append --notebook <id> [--data <md>\|--file <path>]` | `--data` `--file` (`-` for stdin) | Append block to today's daily note |
+| `prepend --notebook <id> [--data <md>\|--file <path>]` | `--data` `--file` (`-` for stdin) | Prepend block to today's daily note |
+
+---
+
 ## file — Workspace File Operations
 
 ```
@@ -357,7 +375,15 @@ Starts the SiYuan kernel HTTP server for API access.
 ## completion — Generate Shell Completion
 
 ```
-siyuan completion <shell>
+siyuan completion [command]
 ```
 
-Generate autocompletion script for bash/zsh/powershell etc.
+### Subcommands
+| Command | Description |
+|---------|-------------|
+| `bash` | Generate autocompletion script for bash |
+| `fish` | Generate autocompletion script for fish |
+| `powershell` | Generate autocompletion script for powershell |
+| `zsh` | Generate autocompletion script for zsh |
+
+Generate autocompletion script for the specified shell.
