@@ -1,5 +1,5 @@
 ---
-name: siyuan_skill
+name: siyuan-skill
 description: >
   Operate SiYuan Note CLI (siyuan) to manage workspaces, notebooks, documents, blocks, SQL queries,
   search, export/import, assets, attributes, bookmarks, tags, history, refs, repo snapshots, sync, serve,
