@@ -103,9 +103,6 @@ siyuan block [command] -w <path>
 | `breadcrumb --id <id>` | `--id <id>` | Get block breadcrumb |
 | `batch-get --ids <ids>` | `--ids <id1,id2,...>` | Batch get block info |
 | `batch-kramdown --ids <ids>` | `--ids <id1,id2,...>` | Batch get block kramdown |
-| `breadcrumb` | `--id <id>` | Get block breadcrumb |
-| `batch-get` | `--ids <ids>` | Batch get block info |
-| `batch-kramdown` | `--ids <ids>` | Batch get block kramdown |
 
 ---
 
@@ -329,10 +326,10 @@ siyuan repo [command] -w <path>
 ### repo file — Nested Subcommands
 | Command | Flags | Description |
 |---------|-------|-------------|
-| `export --snapshot <id> --file <path>` | `--snapshot <id>` `--file <path>` | Export file from snapshot to temp file |
-| `get --snapshot <id> --file <path>` | `--snapshot <id>` `--file <path>` | Get file content from snapshot |
-| `open --snapshot <id> --file <path>` | `--snapshot <id>` `--file <path>` | Preview file content from snapshot |
-| `rollback --snapshot <id> --file <path>` | `--snapshot <id>` `--file <path>` | Rollback a single file from snapshot |
+| `export --id <fileID>` | `--id <fileID>` | Export file from snapshot to temp file |
+| `get --id <fileID>` | `--id <fileID>` `--output <path>` (default: stdout) | Get file content from snapshot |
+| `open --id <fileID>` | `--id <fileID>` | Preview file content from snapshot |
+| `rollback --id <fileID>` | `--id <fileID>` | Rollback a single file from snapshot |
 
 ---
 

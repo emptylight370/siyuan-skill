@@ -78,6 +78,7 @@ Load `references/commands.md` for full `--help` output of every subcommand.
 ### Document
 - `siyuan document list --notebook <id> [--hpath <path>|--path <path>]` — List documents in a notebook
 - `siyuan document get --id <id>` — Get document info
+- `siyuan document info --id <id>` — Get document info (alias of `get`)
 - `siyuan document create --notebook <id> --title <title> [--path <path>] [--markdown <md>]` — Create a document
 - `siyuan document rename --id <id> --title <title>` — Rename a document
 - `siyuan document move --id <id> --notebook <id> [--hpath <path>|--path <path>]` — Move a document to another notebook
@@ -169,10 +170,10 @@ Load `references/commands.md` for full `--help` output of every subcommand.
 - `siyuan repo untag --name <name>` — Remove a tag
 - `siyuan repo purge` — Purge old snapshots
 - `siyuan repo search <keyword> [-p <page>]` — Search files in snapshots
-- `siyuan repo file export --snapshot <id> --file <path>` — Export file from snapshot
-- `siyuan repo file get --snapshot <id> --file <path>` — Get file content from snapshot
-- `siyuan repo file open --snapshot <id> --file <path>` — Preview file from snapshot
-- `siyuan repo file rollback --snapshot <id> --file <path>` — Rollback a file from snapshot
+- `siyuan repo file export --id <fileID>` — Export file from snapshot to temp file
+- `siyuan repo file get --id <fileID> [--output <path>]` — Get file content from snapshot (default: stdout)
+- `siyuan repo file open --id <fileID>` — Preview file from snapshot
+- `siyuan repo file rollback --id <fileID>` — Rollback a file from snapshot
 
 ### Sync
 - `siyuan sync pull` — Download from cloud
@@ -187,7 +188,7 @@ Load `references/commands.md` for full `--help` output of every subcommand.
 - `siyuan database unused` — List unused databases
 - `siyuan database clean [--av <avID>]` — Clean unused databases
 - `siyuan database key add --av <avID> --name <name> --type <type>` — Add a key (field)
-- `siyuan database key remove --av <avID> --key <keyID>` — Remove a key
+- `siyuan database key remove --av <avID> --key <keyID> [--remove-relation-dest]` — Remove a key (--remove-relation-dest: also remove related data in linked databases)
 - `siyuan database item add --av <avID>` — Add a row
 - `siyuan database item update --av <avID> --key <keyID> --item <itemID> --value <json>` — Update a cell
 - `siyuan database item remove --av <avID> --ids <ids>` — Remove rows
