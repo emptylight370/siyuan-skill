@@ -1,6 +1,6 @@
 # SiYuan CLI — Full Command Reference
 
-Auto-generated from `siyuan --help` output (v3.7.0-dev14).
+Auto-generated from `siyuan --help` output (v3.7.0-beta.1).
 
 ---
 
