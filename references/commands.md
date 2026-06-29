@@ -27,10 +27,10 @@ siyuan workspace [command]
 ```
 
 ### Subcommands
-| Command | Description |
-|---------|-------------|
-| `list` | List registered workspaces |
-| `info` | Show current workspace info |
+| Command | Flags | Description |
+|---------|-------|-------------|
+| `list` | | List registered workspaces |
+| `info` | | Show current workspace info |
 
 ### Example
 ```bash
@@ -66,7 +66,6 @@ siyuan notebook [command] -w <path>
 siyuan document [command] -w <path>
 ```
 
-### Subcommands
 ### Subcommands
 | Command | Flags | Description |
 |---------|-------|-------------|
@@ -105,6 +104,15 @@ siyuan block [command] -w <path>
 | `breadcrumb --id <id>` | `--id <id>` | Get block breadcrumb |
 | `batch-get --ids <ids>` | `--ids <id1,id2,...>` | Batch get block info |
 | `batch-kramdown --ids <ids>` | `--ids <id1,id2,...>` | Batch get block kramdown |
+
+### Example
+```bash
+# Append a paragraph block to a document
+siyuan block append --parent 20260605100657-v080a4j --data "Hello SiYuan" -w /path
+
+# Insert from a markdown file
+siyuan block insert --parent 20260605100657-v080a4j --file content.md -w /path
+```
 
 ---
 
@@ -149,6 +157,18 @@ siyuan search <query> [flags] -w <path>
 
 ### Block Types for `-t`
 `document heading paragraph list listItem codeBlock mathBlock table blockquote superBlock htmlBlock embedBlock databaseBlock audioBlock videoBlock iframeBlock widgetBlock callout`
+
+### Example
+```bash
+# Keyword search, JSON output
+siyuan search "siyuan" -w /path -f json
+
+# Filter by document type, sorted by update time descending
+siyuan search "note" -t document -o 4 -w /path
+
+# Fuzzy search (requires embedding model configured)
+siyuan search "idea" -m 4 -w /path
+```
 
 ---
 
@@ -343,11 +363,11 @@ siyuan sync [command] -w <path>
 ```
 
 ### Subcommands
-| Command | Description |
-|---------|-------------|
-| `pull` | Download from cloud |
-| `push` | Upload to cloud |
-| `status` | Show sync status |
+| Command | Flags | Description |
+|---------|-------|-------------|
+| `pull` | | Download from cloud |
+| `push` | | Upload to cloud |
+| `status` | | Show sync status |
 
 ---
 
@@ -382,6 +402,15 @@ block/text/number/date/select/mSelect/url/email/phone/mAsset/template/created/up
 | `item add --av <avID>` | `--av <avID>` `--block <blockID>` `--content <string>` `--detached` `--group <groupID>` `--previous <prevItemID>` `--view <viewID>` `--ignore-default-fill` | Add a row to database |
 | `item update --av <avID> --key <keyID> --item <itemID> --value <json>` | `--av <avID>` `--key <keyID>` `--item <itemID>` `--value <json>` | Update a cell value |
 | `item remove --av <avID> --ids <id1,id2,...>` | `--av <avID>` `--ids <ids>` | Remove rows from database |
+
+### Example
+```bash
+# Update a cell value (--value accepts JSON; format depends on key type)
+siyuan database item update --av <avID> --key <keyID> --item <itemID> --value '"updated text"' -w /path
+
+# Add a row bound to an existing block
+siyuan database item add --av <avID> --block <blockID> -w /path
+```
 
 ---
 
@@ -441,9 +470,9 @@ siyuan system [command] -w <path>
 ```
 
 ### Subcommands
-| Command | Description |
-|---------|-------------|
-| `current-time` | Show current server time |
+| Command | Flags | Description |
+|---------|-------|-------------|
+| `current-time` | | Show current server time |
 
 ---
 
@@ -500,11 +529,11 @@ siyuan completion [command]
 ```
 
 ### Subcommands
-| Command | Description |
-|---------|-------------|
-| `bash` | Generate autocompletion script for bash |
-| `fish` | Generate autocompletion script for fish |
-| `powershell` | Generate autocompletion script for powershell |
-| `zsh` | Generate autocompletion script for zsh |
+| Command | Flags | Description |
+|---------|-------|-------------|
+| `bash` | | Generate autocompletion script for bash |
+| `fish` | | Generate autocompletion script for fish |
+| `powershell` | | Generate autocompletion script for powershell |
+| `zsh` | | Generate autocompletion script for zsh |
 
 Generate autocompletion script for the specified shell.

@@ -44,8 +44,31 @@ as the `-w` argument for **all subsequent commands** (except `workspace` subcomm
 Construct and run the target command with `-w <workspace-path>` appended (except `workspace` subcommand).
 Use `-f json` for programmatic output when parsing results.
 
-If the `siyuan` command is not found, try `SiYuan-Kernel` as the alternative command name.
 If a command fails, check: (1) workspace path is valid, (2) required flags like `--id` are provided, (3) the subcommand exists in the installed CLI version.
+
+## Common Patterns
+
+### Obtaining Block/Document IDs
+
+Many commands require a block or document ID (`--id`). Obtain IDs via:
+- `siyuan sql "SELECT id, content FROM blocks WHERE type='d'" -w <path> -f json` — list document IDs
+- `siyuan document list --notebook <id> -w <path> -f json` — list documents in a notebook
+- `siyuan search <keyword> -w <path> -f json` — search and get IDs from results
+
+### Dry-Run for Destructive Operations
+
+Before running destructive commands (`remove`, `delete`, `clean`, `clear`, `purge`), prepend `--dry-run` to preview the effect without making changes:
+```
+siyuan notebook remove --id <id> --dry-run -w <path>
+```
+
+### JSON Output Parsing
+
+Use `-f json` for programmatic parsing. The output is a JSON array of objects; field names match the SiYuan kernel API response schema. Pipe to `jq` or similar tools for filtering.
+
+### Workspace Lock Errors
+
+If a command exits with code 24 and reports `lock workspace [...] failed`, the workspace is already in use by another SiYuan process (e.g., the desktop app). Either close the other process or target a different workspace.
 
 ## Global Flags
 
@@ -63,21 +86,12 @@ These flags are available on every subcommand:
 
 > **For detailed flags and examples of each command, load `references/commands.md`.**
 
-### Workspace (`siyuan workspace`)
-`list`, `info`
-
-### Notebook (`siyuan notebook`)
-`list`, `create`, `open`, `close`, `rename`, `remove`, `set-icon`, `random-icon`
-
-### Document (`siyuan document`)
-`list`, `get`/`info`, `create`, `rename`, `move`, `duplicate`, `remove`, `search`
-
-### Block (`siyuan block`)
-`get`, `children`, `insert`, `append`, `prepend`, `update`, `delete`, `move`, `stat`, `dom`, `kramdown`, `breadcrumb`, `batch-get`, `batch-kramdown`
-
-### Other Commands
 | Command | Subcommands |
 |---------|-------------|
+| `siyuan workspace` | `list`, `info` |
+| `siyuan notebook` | `list`, `create`, `open`, `close`, `rename`, `remove`, `set-icon`, `random-icon` |
+| `siyuan document` | `list`, `get`/`info`, `create`, `rename`, `move`, `duplicate`, `remove`, `search` |
+| `siyuan block` | `get`, `children`, `insert`, `append`, `prepend`, `update`, `delete`, `move`, `stat`, `dom`, `kramdown`, `breadcrumb`, `batch-get`, `batch-kramdown` |
 | `siyuan sql "<stmt>"` | (direct) |
 | `siyuan search <query>` | (direct, with flags) |
 | `siyuan export` | `md`, `html`, `docx`, `sy`, `md-zip`, `preview`, `data` |
@@ -99,18 +113,4 @@ These flags are available on every subcommand:
 | `siyuan serve` | (direct, with flags) |
 | `siyuan completion` | `bash`, `fish`, `powershell`, `zsh` |
 
-### Serve Flags
-| Flag | Description |
-|------|-------------|
-| `-w, --workspace <path>` | Workspace path (optional) |
-| `--accessAuthCode <string>` | Access auth code |
-| `--attach-ui` | Attach kernel lifecycle to desktop UI process |
-| `--lang <string>` | Language: ar/de/en/es/fr/he/hi/id/it/ja/ko/nl/pl/pt-BR/ru/sk/th/tr/uk/zh-CN/zh-TW |
-| `--mode <string>` | Run mode: dev/prod (default "prod") |
-| `--port <string>` | Port (default "0" = auto) |
-| `--readonly <string>` | Read-only mode: true/false (default "false") |
-| `--ssl` | Enable HTTPS and WSS |
-| `--safe-mode` | Boot in safe mode |
-| `--wd <string>` | Working directory of SiYuan |
-
-> **Note:** `serve` does not require `-w`; it starts the kernel which loads the workspace.
+> **Note:** `serve` accepts all global flags plus its own flags (`--accessAuthCode`, `--attach-ui`, `--lang`, `--mode`, `--port`, `--readonly`, `--ssl`, `--safe-mode`, `--wd`). It does not require `-w`; see `references/commands.md` for the full flag list.
