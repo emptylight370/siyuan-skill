@@ -16,7 +16,7 @@ agent_created: true
 SiYuan Note provides a CLI (`siyuan`) to manage workspaces, notebooks, documents, blocks, and more.
 The binary must be available on `PATH` (verify with `siyuan --version`).
 
-> **CLI Version:** v3.7.0-beta.1. Commands shown below reflect this version.
+> **CLI Version:** v3.7.0-rc.1. Commands shown below reflect this version.
 
 > **Note:** If `siyuan` is not found on `PATH`, try `SiYuan-Kernel` as the alternative command name.
 
@@ -53,7 +53,7 @@ These flags are available on every subcommand:
 
 | Flag | Description |
 |------|-------------|
-| `-w, --workspace <path>` | Workspace path (required for all commands except `workspace` and `serve`; note: `serve` only accepts `--workspace` full form, not `-w`, and it is optional as it defaults to the default workspace) |
+| `-w, --workspace <path>` | Workspace path (required for all commands except `workspace`; optional for `serve`, which defaults to the default workspace). |
 | `-f, --format <table\|json>` | Output format (default: `table`) |
 | `--dry-run` | Validate and print what would happen without making changes |
 
@@ -67,7 +67,7 @@ These flags are available on every subcommand:
 `list`, `info`
 
 ### Notebook (`siyuan notebook`)
-`list`, `create`, `open`, `close`, `rename`, `remove`
+`list`, `create`, `open`, `close`, `rename`, `remove`, `set-icon`, `random-icon`
 
 ### Document (`siyuan document`)
 `list`, `get`/`info`, `create`, `rename`, `move`, `duplicate`, `remove`, `search`
@@ -110,6 +110,7 @@ These flags are available on every subcommand:
 | `--port <string>` | Port (default "0" = auto) |
 | `--readonly <string>` | Read-only mode: true/false (default "false") |
 | `--ssl` | Enable HTTPS and WSS |
+| `--safe-mode` | Boot in safe mode |
 | `--wd <string>` | Working directory of SiYuan |
 
 > **Note:** `serve` does not require `-w`; it starts the kernel which loads the workspace.

@@ -1,6 +1,6 @@
 # SiYuan CLI — Full Command Reference
 
-Auto-generated from `siyuan --help` output (v3.7.0-beta.1).
+Auto-generated from `siyuan --help` output (v3.7.0-rc.1).
 
 ---
 
@@ -55,6 +55,8 @@ siyuan notebook [command] -w <path>
 | `close` | `--id <id>` | Close a notebook |
 | `rename` | `--id <id> --name <name>` | Rename a notebook |
 | `remove` | `--id <id>` | Remove a notebook |
+| `set-icon --id <id> --icon <icon>` | `--id <id>` `--icon <icon>` | Set a notebook icon (emoji hex codepoint, emoji char, image path, or dynamic icon URL) |
+| `random-icon [--id <id>]` | `--id <id>` (optional; omit to update all notebooks) | Randomly set notebook icon(s) from built-in emojis |
 
 ---
 
@@ -471,7 +473,7 @@ siyuan template [command] -w <path>
 siyuan serve [flags]
 ```
 
-Starts the SiYuan kernel HTTP server for API access.
+Starts the SiYuan kernel HTTP server. All serving-related options below are passed to the kernel boot.
 
 ### Flags
 | Flag | Description |
@@ -484,6 +486,7 @@ Starts the SiYuan kernel HTTP server for API access.
 | `--port <string>` | Port of the HTTP server (default "0" = auto) |
 | `--readonly <string>` | Read-only mode: true/false (default "false") |
 | `--ssl` | Enable HTTPS and WSS |
+| `--safe-mode` | Boot in safe mode |
 | `--wd <string>` | Working directory of SiYuan |
 
 > **Note:** `serve` does not require `-w` flag; it starts the kernel which then loads the workspace.
