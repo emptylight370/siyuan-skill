@@ -16,7 +16,7 @@ agent_created: true
 SiYuan Note provides a CLI (`siyuan`) to manage workspaces, notebooks, documents, blocks, and more.
 The binary must be available on `PATH` (verify with `siyuan --version`).
 
-> **CLI Version:** v3.7.0-rc.1. Commands shown below reflect this version.
+> **CLI Version:** v3.7.0. Commands shown below reflect this version.
 
 > **Note:** If `siyuan` is not found on `PATH`, try `SiYuan-Kernel` as the alternative command name.
 
@@ -69,6 +69,40 @@ Use `-f json` for programmatic parsing. The output is a JSON array of objects; f
 ### Workspace Lock Errors
 
 If a command exits with code 24 and reports `lock workspace [...] failed`, the workspace is already in use by another SiYuan process (e.g., the desktop app). Either close the other process or target a different workspace.
+
+## Domain Concepts
+
+Understanding these SiYuan-specific concepts is essential for correct CLI usage:
+
+### Block — The Fundamental Unit
+Everything is a block with a unique ID. A document is a document block (type `d`, i.e. NodeDocument) that serves as the root; content blocks (headings, paragraphs, lists, code, tables) form a tree beneath it.
+
+**Container blocks** (can hold child blocks, valid as `--parent`): document, blockquote, list, list-item, super-block, callout.
+**Leaf blocks** (cannot hold children, invalid as `--parent`): heading, paragraph, code-block, math-block, table, HTML-block, thematic-break, video, audio, widget, iframe, attribute-view, block-query-embed.
+
+### Heading Hierarchy — Use `--previous`, Not `--parent`
+Headings (h1-h6) are **leaf blocks**. Blocks that appear "under" a heading in the UI are its *following siblings* in the AST, not its children. To insert a block below a heading, pass the heading's ID (or the ID of the last block currently below it) as `--previous`, **not** as `--parent`:
+```
+siyuan block insert --parent <docID> --previous <headingID> --data "text" -w <path>
+```
+
+### Nested Lists — list-item Cannot Directly Hold list-item
+A list-item cannot directly contain another list-item. To nest lists, create a list (NodeList) as a child of the outer list-item, then add list-items to that inner list. The parent of a list-item must always be a list.
+
+### hPath — Human-Readable Path
+The `--path`/`--hpath` parameter in `document create`/`move`/`list` refers to the **title-based path** shown in the document tree (e.g. `/Diary/2024/June`), not the internal ID-based filesystem path. Renaming a document changes its hPath but not its ID.
+
+### block update — Replace, Not Append
+`block update` replaces **ONE** block's entire content with new markdown. It does NOT create or append new blocks. To both modify existing content and add new content, call `block update` first, then `block append`/`prepend`/`insert` as separate calls.
+
+### document move vs block move
+`document move` relocates an entire document (and all its children) to a new hPath within a notebook. `block move` repositions a single content block under a new parent block.
+
+### Daily Note — When to Use dailynote vs document
+A daily note is a special document on the notebook's daily-note save path. For diary/journal/daily-note requests, use `dailynote create` (not `document create`) to open today's note, then `dailynote append`/`prepend` to add content.
+
+### Notebook Icon vs Document Icon
+`attr set` changes a document **block's** icon — it cannot set a **notebook's** icon. For notebooks use `notebook set-icon` (specific emoji) or `notebook random-icon` (random emoji).
 
 ## Global Flags
 
